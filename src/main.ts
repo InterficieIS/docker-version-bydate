@@ -6,7 +6,7 @@ async function run(): Promise<void> {
     const image: string = core.getInput('image')
     const date = new Date().toISOString().substr(0, 10).split('-')
     const prefix = `${date[0]}.${date[1]}${date[2]}`
-    const counter = fetchCounter(image, prefix)
+    const counter = await fetchCounter(image, prefix)
 
     core.setOutput('version', `${prefix}.${counter}`)
   } catch (error) {

@@ -136,7 +136,7 @@ function run() {
             const image = core.getInput('image');
             const date = new Date().toISOString().substr(0, 10).split('-');
             const prefix = `${date[0]}.${date[1]}${date[2]}`;
-            const counter = fetchCounter_1.default(image, prefix);
+            const counter = yield fetchCounter_1.default(image, prefix);
             core.setOutput('version', `${prefix}.${counter}`);
         }
         catch (error) {
