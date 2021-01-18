@@ -40,7 +40,7 @@ function isResponseData(input: unknown): input is ResponseData {
   )
 }
 
-async function fetchCounter(image: string, prefix: string): Promise<number> {
+export async function fetchVersions(image: string): Promise<ResponseData> {
   const client = new http.HttpClient()
   const response = await client.get(
     `https://hub.docker.com/v2/repositories/${image}/tags?page_size=4`
@@ -54,13 +54,28 @@ async function fetchCounter(image: string, prefix: string): Promise<number> {
   if (!isResponseData(data)) {
     throw Error(`Unexpected response from registry:\n${data}`)
   }
+
+  return data
+}
+
+async function fetchCounter(
+  image: string,
+  prefix: string,
+  options?: {
+    fetcher?: typeof fetchVersions
+  }
+): Promise<number> {
+  const defaults = {fetcher: fetchVersions}
+  const config = {...defaults, ...options}
+
+  const data = await config.fetcher(image)
   const latestVersion: string | undefined = data.results
     .map(tag => tag.name)
     .filter(version => version.startsWith(prefix) && validate(version))
     .sort(compare)
     .pop()
 
-  return latestVersion ? parseInt(latestVersion.slice(8), 10) + 1 : 0
+  return latestVersion ? parseInt(latestVersion.slice(10), 10) + 1 : 0
 }
 
 export default fetchCounter

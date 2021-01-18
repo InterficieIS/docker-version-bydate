@@ -1,6 +1,6 @@
 {
   "name": "docker-version-bydate",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "description": "Calculates the next date.monthday.counter version identifier for your docker image",
   "main": "lib/main.js",

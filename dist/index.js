@@ -36,6 +36,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.fetchVersions = void 0;
 const http = __importStar(__nccwpck_require__(925));
 const semver_1 = __nccwpck_require__(107);
 function parseResponse(buf) {
@@ -67,7 +68,7 @@ function isResponseData(input) {
         Array.isArray(obj.results) &&
         obj.results.every(isTag));
 }
-function fetchCounter(image, prefix) {
+function fetchVersions(image) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = new http.HttpClient();
         const response = yield client.get(`https://hub.docker.com/v2/repositories/${image}/tags?page_size=4`);
@@ -78,12 +79,21 @@ function fetchCounter(image, prefix) {
         if (!isResponseData(data)) {
             throw Error(`Unexpected response from registry:\n${data}`);
         }
+        return data;
+    });
+}
+exports.fetchVersions = fetchVersions;
+function fetchCounter(image, prefix, options) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const defaults = { fetcher: fetchVersions };
+        const config = Object.assign(Object.assign({}, defaults), options);
+        const data = yield config.fetcher(image);
         const latestVersion = data.results
             .map(tag => tag.name)
             .filter(version => version.startsWith(prefix) && semver_1.validate(version))
             .sort(semver_1.compare)
             .pop();
-        return latestVersion ? parseInt(latestVersion.slice(8), 10) + 1 : 0;
+        return latestVersion ? parseInt(latestVersion.slice(10), 10) + 1 : 0;
     });
 }
 exports.default = fetchCounter;
