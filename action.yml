@@ -1,11 +1,16 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Calculate next version for a docker image (date-based)'
+author: Interficie <hola@interficie.com>
+description: |
+  This action calculates the next date.monthday.counter version
+  identifier for your docker image.
 inputs:
-  milliseconds: # change this
+  image:
+    description: 'Image identifier, ex: repo/image'
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    default: 'wat'
+outputs:
+  version:
+    description: 'The calculated version'
 runs:
   using: 'node12'
   main: 'dist/index.js'
