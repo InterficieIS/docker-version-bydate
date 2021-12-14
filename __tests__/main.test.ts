@@ -12,7 +12,7 @@ test('test runs', () => {
   }
   try {
     console.log(cp.execFileSync(np, [ip], options).toString())
-  } catch (err) {
+  } catch (err: any) {
     console.error(err.stdout.toString())
   }
 })
