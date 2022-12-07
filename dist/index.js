@@ -128,7 +128,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const image = (0, core_1.getInput)('image');
-            const date = new Date().toISOString().substr(0, 10).split('-');
+            const date = new Date().toISOString().slice(0, 10).split('-');
             const prefix = `${date[0]}.${date[1]}${date[2]}`;
             const counter = yield (0, fetchCounter_1.default)(image, prefix);
             (0, core_1.setOutput)('version', `${prefix}.${counter}`);
