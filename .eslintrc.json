@@ -55,6 +55,15 @@
     "@typescript-eslint/type-annotation-spacing": "error",
     "@typescript-eslint/unbound-method": "error"
   },
+  "overrides": [
+    {
+      "files": ["jest.config.js"],
+      "rules": {
+        "import/no-default-export": "off",
+        "import/no-commonjs": "off"
+      }
+    }
+  ],
   "env": {
     "node": true,
     "es6": true,

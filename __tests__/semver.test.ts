@@ -176,7 +176,8 @@ describe('version validation', () => {
     ['6.3.', /Invalid argument not valid semver/],
     ['1.2.3a', /Invalid argument not valid semver/],
     ['1.2.-3a', /Invalid argument not valid semver/]
-  ])('%p %s', (v1, exception) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ])('%p %s', (v1, message) => {
     expect(validate(v1)).toStrictEqual(false)
   })
 })

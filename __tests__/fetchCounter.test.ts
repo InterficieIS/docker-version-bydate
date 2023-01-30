@@ -1,9 +1,9 @@
 import fetchCounter from '../src/fetchCounter'
-import {ResponseData} from '../src/types'
+import {ResponseData} from '../src/types.d'
 
 describe('fetchCounter', () => {
   test('returns 0 when there are no versions', () => {
-    const fetcher = (_image: string): Promise<ResponseData> =>
+    const fetcher = async (): Promise<ResponseData> =>
       Promise.resolve({
         results: []
       })
@@ -14,7 +14,7 @@ describe('fetchCounter', () => {
   })
 
   test('returns 1 when there is only one version .0', () => {
-    const fetcher = (_image: string): Promise<ResponseData> =>
+    const fetcher = async (): Promise<ResponseData> =>
       Promise.resolve({
         results: [{name: '2021.0118.0'}]
       })
@@ -25,7 +25,7 @@ describe('fetchCounter', () => {
   })
 
   test('returns 5 when the latest version is .4', () => {
-    const fetcher = (_image: string): Promise<ResponseData> =>
+    const fetcher = async (): Promise<ResponseData> =>
       Promise.resolve({
         results: [
           {name: '2021.0118.1'},
