@@ -1,7 +1,7 @@
 import {getInput, setFailed, setOutput} from '@actions/core'
 import fetchCounter from './fetchCounter'
 
-async function run(): Promise<void> {
+export async function run(): Promise<void> {
   try {
     const image: string = getInput('image')
     const date = new Date().toISOString().slice(0, 10).split('-')
@@ -10,12 +10,6 @@ async function run(): Promise<void> {
 
     setOutput('version', `${prefix}.${counter}`)
   } catch (error) {
-    setFailed((error as Error).message)
+    if (error instanceof Error) setFailed(error.message)
   }
 }
-
-run()
-  .then(() => {})
-  .catch(error => {
-    setFailed(error.message)
-  })
