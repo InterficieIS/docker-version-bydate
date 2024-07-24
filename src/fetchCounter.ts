@@ -27,7 +27,7 @@ function isResponseData(input: unknown): input is ResponseData {
     typeof input !== 'object' ||
     input === null ||
     !(input instanceof Object) ||
-    !input.hasOwnProperty('results')
+    !('results' in input)
   ) {
     return false
   }

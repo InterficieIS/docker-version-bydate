@@ -15,9 +15,7 @@ async function run(): Promise<void> {
 }
 
 run()
-  // eslint-disable-next-line github/no-then
   .then(() => {})
-  // eslint-disable-next-line github/no-then
   .catch(error => {
     setFailed(error.message)
   })

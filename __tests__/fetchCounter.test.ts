@@ -8,7 +8,7 @@ describe('fetchCounter', () => {
         results: []
       })
 
-    expect(
+    return expect(
       fetchCounter('some/thing', '2021.0118.', {fetcher})
     ).resolves.toStrictEqual(0)
   })
@@ -19,7 +19,7 @@ describe('fetchCounter', () => {
         results: [{name: '2021.0118.0'}]
       })
 
-    expect(
+    return expect(
       fetchCounter('some/thing', '2021.0118.', {fetcher})
     ).resolves.toStrictEqual(1)
   })
@@ -34,7 +34,7 @@ describe('fetchCounter', () => {
         ]
       })
 
-    expect(
+    return expect(
       fetchCounter('some/thing', '2021.0118.', {fetcher})
     ).resolves.toStrictEqual(5)
   })
