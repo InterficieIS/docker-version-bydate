@@ -8,11 +8,14 @@ on: # rebuild any PRs and main branch changes
 
 jobs:
   build: # make sure build/ci work properly
+    strategy:
+      matrix:
+        version: [20, 22]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.version }}
       - uses: actions/checkout@v4
       - run: |
           yarn install --frozen-lockfile
