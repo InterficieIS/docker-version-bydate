@@ -7,9 +7,11 @@
 This action computes a new version number for docker images that depends on the current date and the previously released versions for the same date.
 
 The action checks the docker hub registry and computes a version of the form:
+
 ```
 YYYY.MMDD.counter
 ```
+
 where `YYYY` is the current 4-digit year, `MMDD` are the month and day numbers (always using 2 digits), and `counter` is either `0` if this is the first release of the day, or the next version (previous counter + 1) otherwise.
 
 ## Inputs
