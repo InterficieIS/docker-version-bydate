@@ -29,5 +29,11 @@ jobs:
           node-version: 20
       - uses: actions/checkout@v4
       - uses: ./
+        id: next
         with:
           image: interficie/helvetia-php
+      - name: Check that we got some version
+        run: |
+          [ ! -z "$NEW_VERSION" ] || exit 1
+        env:
+          NEW_VERSION: ${{ steps.next.outputs.version }}
