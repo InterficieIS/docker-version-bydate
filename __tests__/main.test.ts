@@ -1,45 +1,40 @@
-import * as core from '@actions/core'
-import * as fetchCounter from '../src/fetchCounter'
-import * as main from '../src/main'
+import {jest} from '@jest/globals'
+import * as core from '../__fixtures__/core.js'
+import fetchCounter from '../__fixtures__/fetchCounter.js'
 
-// Mock the GitHub Actions core library
-let errorMock: jest.SpiedFunction<typeof core.error>
-let getInputMock: jest.SpiedFunction<typeof core.getInput>
-// let setFailedMock: jest.SpiedFunction<typeof core.setFailed>
-let setOutputMock: jest.SpiedFunction<typeof core.setOutput>
-let fetchCounterMock: jest.SpiedFunction<typeof fetchCounter.default>
+// Mocks should be declared before the module being tested is imported.
+jest.unstable_mockModule('@actions/core', () => core)
+jest.unstable_mockModule('../src/fetchCounter.js', () => ({
+  default: fetchCounter
+}))
 
-// Mock the action's main function
-const runMock = jest.spyOn(main, 'run')
+// The module being tested should be imported dynamically. This ensures that the
+// mocks are used in place of any actual dependencies.
+const {run} = await import('../src/main.js')
 
 describe('action', () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
+  beforeEach(() => {})
 
-    errorMock = jest.spyOn(core, 'error').mockImplementation()
-    getInputMock = jest.spyOn(core, 'getInput').mockImplementation()
-    // setFailedMock = jest.spyOn(core, 'setFailed').mockImplementation()
-    setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
-    fetchCounterMock = jest.spyOn(fetchCounter, 'default')
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   it('sets the time output', async () => {
     // Set the action's inputs as return values from core.getInput()
-    getInputMock.mockImplementation(() => 'test')
-    fetchCounterMock.mockImplementation(() => Promise.resolve(0))
+    core.getInput.mockClear().mockImplementation(() => 'test')
+    fetchCounter.mockClear().mockImplementation(() => Promise.resolve(0))
 
-    await main.run()
+    await run()
 
-    expect(runMock).toHaveReturned()
-    expect(fetchCounterMock).toHaveBeenCalledWith(
+    expect(fetchCounter).toHaveBeenCalledWith(
       'test',
       expect.stringMatching(/[0-9]{4}\.[0-9]{4}/)
     )
-    expect(setOutputMock).toHaveBeenNthCalledWith(
+    expect(core.setOutput).toHaveBeenNthCalledWith(
       1,
       'version',
       expect.stringMatching(/[0-9]{4}\.[0-9]{4}\.0/)
     )
-    expect(errorMock).not.toHaveBeenCalled()
+    expect(core.error).not.toHaveBeenCalled()
   })
 })

@@ -1,9 +1,11 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": ".",
-    "noEmit": true
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "./dist"
   },
-  "exclude": ["lib", "dist", ".git", "node_modules"],
-  "include": ["src/**/*.ts", "__tests__/**/*.ts", "jest.config.js"]
+  "exclude": ["__fixtures__", "__tests__", "coverage", "dist", "node_modules"],
+  "include": ["src"]
 }

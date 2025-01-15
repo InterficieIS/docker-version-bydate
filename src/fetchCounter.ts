@@ -1,6 +1,6 @@
 import * as http from '@actions/http-client'
-import type {ResponseData, Tag} from './types'
-import {compare, validate} from './semver'
+import type {ResponseData, Tag} from './types.js'
+import {compare, validate} from './semver.js'
 
 function parseResponse(buf: string): unknown {
   try {
